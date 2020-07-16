@@ -7,7 +7,7 @@ stage('SCM Checkout'){
  
  stage('Build Docker Image'){
 
-	app = docker.build(gaganpr/testimage123)
+	app = docker.build("gaganpr/myimage1")
 
    }
 
