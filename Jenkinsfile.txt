@@ -1,16 +1,11 @@
-   stage('SCM Checkout'){
-       git credentialsId: 'git-creds', url: 'https://github.com/javahometech/my-app'
+node{
+stage('SCM Checkout'){
+       git credentialsId: 'git-creds', url: 'https://github.com/gaganpra/Docker.git'
    }
  
  stage('Build Docker Image'){
-     sh 'docker build -t kammana/my-app:2.0.0 .'
+     sh 'docker build -t gaganpr/my-app:2.0.0 .'
    }
-   stage('Push Docker Image'){
-     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
-        sh "docker login -u kammana -p ${dockerHubPwd}"
-     }
-     sh 'docker push kammana/my-app:2.0.0'
-   }
+ }
    
-}
 	   
