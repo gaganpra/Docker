@@ -7,13 +7,13 @@ stage('SCM Checkout'){
  
  stage('Build Docker Image'){
 
-	app = docker.build("gaganpr/myimage1")
+	app = docker.build("gaganpra/myimage1")
 
    }
 
  stage('Push image'){
 
-	docker.withRegistry('https://registry.hub.docker.com', 'Docker_Build')
+	docker.withRegistry('https://registry.hub.docker.com', 'docker-build')
 	app.push("${env.BUILD_NUMBER}")
 	app.push("latest")
    }
