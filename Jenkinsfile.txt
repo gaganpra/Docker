@@ -1,17 +1,16 @@
-
-node {
-
-    checkout scm
-
-   docker.withRegistry('https://registry.hub.docker.com', 'Docker_Build') {
-
-        def customImage = docker.build("gaganpr/myimage1")
-
-        /* Push the container to the custom Registry */
-
-        customImage.push()
-
-    }
-
+   stage('SCM Checkout'){
+       git credentialsId: 'git-creds', url: 'https://github.com/javahometech/my-app'
+   }
+ 
+ stage('Build Docker Image'){
+     sh 'docker build -t kammana/my-app:2.0.0 .'
+   }
+   stage('Push Docker Image'){
+     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
+        sh "docker login -u kammana -p ${dockerHubPwd}"
+     }
+     sh 'docker push kammana/my-app:2.0.0'
+   }
+   
 }
 	   
