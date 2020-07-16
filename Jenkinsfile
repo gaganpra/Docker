@@ -1,10 +1,20 @@
 node{
-    
 stage('SCM Checkout'){
-       git credentialsId: 'git-creds', url: 'https://github.com/gaganpra/Docker.git'
+       
+	checkout scm
+	
    }
  
  stage('Build Docker Image'){
-     sh 'docker build -t gaganpr/my-app:2.0.0 .'
+
+	app = docker.build(gaganpr/testimage123)
+
+   }
+
+ stage('Push image'){
+
+	docker.withRegistry('https://registry.hub.docker.com', 'Docker_Build')
+	app.push("${env.BUILD_NUMBER}")
+	app.push("latest")
    }
  }
