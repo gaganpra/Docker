@@ -1,14 +1,10 @@
-node {
-
-    checkout scm
-     {
-
-        def customImage = docker.build("gaganpr/myimage2")
-
-        /* Push the container to the custom Registry */
-
-       
-
-    }
-
-}
+node{
+    
+stage('SCM Checkout'){
+       git credentialsId: 'git-creds', url: 'https://github.com/gaganpra/Docker.git'
+   }
+ 
+ stage('Build Docker Image'){
+     sh 'docker build -t gaganpr/my-app:2.0.0 .'
+   }
+ }
