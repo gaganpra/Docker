@@ -1,20 +1,15 @@
-node{
-stage('SCM Checkout'){
-       
-	checkout scm
-	
-   }
- 
- stage('Build Docker Image'){
+node {
 
-	app = docker.build("gaganpra/myimage1")
+    checkout scm
 
-   }
+   docker.withRegistry('https://registry.hub.docker.com', 'docker-build') {
 
- stage('Push image'){
+        def customImage = docker.build("gaganpra/myimage1")
 
-	docker.withRegistry('https://registry.hub.docker.com', 'docker-build')
-	app.push("${env.BUILD_NUMBER}")
-	app.push("latest")
-   }
- }
+        /* Push the container to the custom Registry */
+
+        customImage.push()
+
+    }
+
+}
