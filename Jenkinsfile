@@ -1,21 +1,16 @@
-node{
 
-stage('SCM Checkout'){
-       
-	git credentialsId: 'git-creds', url: 'https://github.com/javahometech/my-app'
-	
-   }
- 
- stage('Build Docker Image'){
+node {
 
-	app = docker.build("gaganpra/myimages")
+    checkout scm
 
-   }
+   docker.withRegistry('https://registry.hub.docker.com', 'docker-build') {
 
- stage('Push image'){
+        def customImage = docker.build("gaganpra/myimage1")
 
-	docker.withRegistry('https://registry.hub.docker.com', 'docker-build')
-	app.push("${env.BUILD_NUMBER}")
-	app.push("latest")
-   }
- }
+        /* Push the container to the custom Registry */
+
+        customImage.push()
+
+    }
+
+}
